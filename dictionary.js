@@ -1,215 +1,151 @@
 // dictionary.js
-// Complete, cleaned, and reorganised master list for FSP training
-// Patient language → expected Fachsprache answer
+// compact 3-column format: deck | patient | correct
 
-window.ITEMS = [
+window.RAW_ITEMS = [
 
-  /* =========================================================
-     🧠 NEUROLOGISCH / PSYCHISCH
-     ========================================================= */
+  // Neurologisch / Psychisch
+  "Neurologisch / Psychisch|Kopfschmerzen|Cephalgie",
+  "Neurologisch / Psychisch|Mein Kopf tut weh|Cephalgie",
+  "Neurologisch / Psychisch|Ich habe starke Kopfschmerzen|Cephalgie",
+  "Neurologisch / Psychisch|Pochend|pulsierend",
+  "Neurologisch / Psychisch|Auf der rechten Seite|rechtsseitig",
+  "Neurologisch / Psychisch|Kommt immer wieder|rezidivierend",
+  "Neurologisch / Psychisch|Licht tut mir weh|Photophobie",
+  "Neurologisch / Psychisch|Ich halte kein helles Licht aus|Photophobie",
+  "Neurologisch / Psychisch|Geräusche sind unerträglich|Phonophobie",
+  "Neurologisch / Psychisch|Lärm macht es schlimmer|Phonophobie",
+  "Neurologisch / Psychisch|Schwindel|Vertigo",
+  "Neurologisch / Psychisch|Mir dreht sich alles|Vertigo",
+  "Neurologisch / Psychisch|Ich habe das Gefühl, alles schwankt|Vertigo",
+  "Neurologisch / Psychisch|Die Augen wackeln|Nystagmus",
+  "Neurologisch / Psychisch|Kribbeln|Parästhesie",
+  "Neurologisch / Psychisch|Es fühlt sich taub an|Parästhesie",
+  "Neurologisch / Psychisch|Ohnmacht|Synkope",
+  "Neurologisch / Psychisch|Ich bin kurz weggetreten|Synkope",
+  "Neurologisch / Psychisch|Ich bewege mich langsamer|Bradykinese",
+  "Neurologisch / Psychisch|Alles geht irgendwie träge|Bradykinese",
+  "Neurologisch / Psychisch|Ich bin morgens ganz steif|Rigor",
+  "Neurologisch / Psychisch|Meine Muskeln fühlen sich hart an|Rigor",
+  "Neurologisch / Psychisch|Auf einer Seite sehe ich nichts|Hemianopsie",
+  "Neurologisch / Psychisch|Mir fehlt ein Teil vom Sichtfeld|Hemianopsie",
+  "Neurologisch / Psychisch|Starke Müdigkeit|Fatigue",
+  "Neurologisch / Psychisch|Ich bin ständig erschöpft|Fatigue",
+  "Neurologisch / Psychisch|Ich habe keine Energie|Fatigue",
+  "Neurologisch / Psychisch|Schlafstörungen|Insomnie",
+  "Neurologisch / Psychisch|Ich kann nicht schlafen|Insomnie",
+  "Neurologisch / Psychisch|Ich bin dauerhaft gedrückt|Dysthymie",
+  "Neurologisch / Psychisch|Ich bin nie richtig gut drauf|Dysthymie",
+  "Neurologisch / Psychisch|Ich fühle mich sehr niedergeschlagen|Depression",
+  "Neurologisch / Psychisch|Ich habe keine Freude mehr|Depression",
+  "Neurologisch / Psychisch|Ich habe keine Lust auf Sex|Frigidität",
+  "Neurologisch / Psychisch|Sexuelles Interesse fehlt|Frigidität",
 
-  // Kopfschmerz / Migräne-typisch
-  { patient: "Kopfschmerzen", correct: "Cephalgie" },
-  { patient: "Mein Kopf tut weh", correct: "Cephalgie" },
-  { patient: "Ich habe starke Kopfschmerzen", correct: "Cephalgie" },
-  { patient: "Pochend", correct: "pulsierend" },
-  { patient: "Auf der rechten Seite", correct: "rechtsseitig" },
-  { patient: "Kommt immer wieder", correct: "rezidivierend" },
+  // HNO / Hals / Stimme
+  "HNO / Hals / Stimme|Ohrgeräusche|Tinnitus",
+  "HNO / Hals / Stimme|Pfeifen im Ohr|Tinnitus",
+  "HNO / Hals / Stimme|Ich höre schlechter|Hörminderung",
+  "HNO / Hals / Stimme|heiser|Dysphonie",
+  "HNO / Hals / Stimme|Heisere Stimme|Dysphonie",
+  "HNO / Hals / Stimme|Meine Stimme ist weg|Dysphonie",
+  "HNO / Hals / Stimme|Kloßgefühl im Hals|Globusgefühl",
+  "HNO / Hals / Stimme|Kloß im Hals|Globusgefühl",
+  "HNO / Hals / Stimme|Als ob etwas im Hals steckt|Globusgefühl",
 
-  // Licht / Lärm
-  { patient: "Licht tut mir weh", correct: "Photophobie" },
-  { patient: "Ich halte kein helles Licht aus", correct: "Photophobie" },
-  { patient: "Geräusche sind unerträglich", correct: "Phonophobie" },
-  { patient: "Lärm macht es schlimmer", correct: "Phonophobie" },
+  // Gastrointestinal
+  "Gastrointestinal|Schluckstörung|Dysphagie",
+  "Gastrointestinal|Schluckbeschwerden|Dysphagie",
+  "Gastrointestinal|schlecht schlucken|Dysphagie",
+  "Gastrointestinal|Ich kann schlecht schlucken|Dysphagie",
+  "Gastrointestinal|Schmerzen beim Schlucken|Odynophagie",
+  "Gastrointestinal|beim Schlucken tut es weh|Odynophagie",
+  "Gastrointestinal|Mageninhalt kommt hoch|Regurgitation",
+  "Gastrointestinal|sauer hochkommen|Regurgitation",
+  "Gastrointestinal|Essen kommt wieder hoch|Regurgitation",
+  "Gastrointestinal|Säure steigt hoch|Regurgitation",
+  "Gastrointestinal|Sodbrennen|Pyrosis",
+  "Gastrointestinal|kein Appetit|Inappetenz",
+  "Gastrointestinal|Wenig Appetit|Inappetenz",
+  "Gastrointestinal|Ich esse kaum noch|Inappetenz",
+  "Gastrointestinal|Ich habe keinen Hunger|Anorexie",
+  "Gastrointestinal|Essen interessiert mich nicht|Anorexie",
+  "Gastrointestinal|Ich habe abgenommen|Gewichtsverlust",
+  "Gastrointestinal|Ich verliere Gewicht ohne Grund|Gewichtsverlust",
+  "Gastrointestinal|Die Kilos gehen runter ohne Grund|Gewichtsverlust",
+  "Gastrointestinal|Durchfall|Diarrhö",
+  "Gastrointestinal|Verstopfung|Obstipation",
+  "Gastrointestinal|Ich kann nicht auf Toilette|Obstipation",
+  "Gastrointestinal|Schwarzer Stuhl|Meläna",
+  "Gastrointestinal|Blut im Stuhl|Hämatochezie",
+  "Gastrointestinal|Bauchschmerzen|Abdominalschmerzen",
+  "Gastrointestinal|Krampfartige Schmerzen|kolikartig",
+  "Gastrointestinal|Nach dem Essen|postprandial",
 
-  // Schwindel / Augen
-  { patient: "Schwindel", correct: "Vertigo" },
-  { patient: "Mir dreht sich alles", correct: "Vertigo" },
-  { patient: "Ich habe das Gefühl, alles schwankt", correct: "Vertigo" },
-  { patient: "Die Augen wackeln", correct: "Nystagmus" },
+  // Allgemein / Vegetativ
+  "Allgemein / Vegetativ|Fieber|Pyrexie",
+  "Allgemein / Vegetativ|Ich hatte 38–39 Grad|Pyrexie",
+  "Allgemein / Vegetativ|Starkes Schwitzen|Hyperhidrose",
+  "Allgemein / Vegetativ|Ich schwitze extrem|Hyperhidrose",
+  "Allgemein / Vegetativ|Vermehrter Speichelfluss|Hypersalivation",
 
-  // Sensibilität / Bewusstsein
-  { patient: "Kribbeln", correct: "Parästhesie" },
-  { patient: "Es fühlt sich taub an", correct: "Parästhesie" },
-  { patient: "Ohnmacht", correct: "Synkope" },
-  { patient: "Ich bin kurz weggetreten", correct: "Synkope" },
+  // Atemwege / Infekt
+  "Atemwege / Infekt|Husten|Tussis",
+  "Atemwege / Infekt|Ich muss ständig husten|Tussis",
+  "Atemwege / Infekt|Trockener Husten|unproduktiver Husten",
+  "Atemwege / Infekt|Ohne Schleim|unproduktiver Husten",
+  "Atemwege / Infekt|Erbrechen|Emesis",
+  "Atemwege / Infekt|Ich musste mich übergeben|Emesis",
+  "Atemwege / Infekt|Übelkeit|Nausea",
+  "Atemwege / Infekt|Mir ist schlecht|Nausea",
+  "Atemwege / Infekt|Atemnot|Dyspnoe",
 
-  // Parkinson-typisch
-  { patient: "Ich bewege mich langsamer", correct: "Bradykinese" },
-  { patient: "Alles geht irgendwie träge", correct: "Bradykinese" },
-  { patient: "Ich bin morgens ganz steif", correct: "Rigor" },
-  { patient: "Meine Muskeln fühlen sich hart an", correct: "Rigor" },
+  // Thorax / Kardiopulmonal
+  "Thorax / Kardiopulmonal|Schmerzen hinter dem Brustbein|retrosternaler Schmerz",
+  "Thorax / Kardiopulmonal|Brustschmerzen|thorakale Schmerzen",
+  "Thorax / Kardiopulmonal|Hinter dem Brustbein|retrosternal",
+  "Thorax / Kardiopulmonal|Brennt wie Feuer|brennend",
+  "Thorax / Kardiopulmonal|Zieht in den Hals / Arm|ausstrahlend",
+  "Thorax / Kardiopulmonal|Zieht in den Hals|Ausstrahlung",
+  "Thorax / Kardiopulmonal|Wird bei Bewegung schlimmer|belastungsabhängig",
+  "Thorax / Kardiopulmonal|Wird beim Aufstehen schlimmer|lageabhängig",
+  "Thorax / Kardiopulmonal|Wasser hilft|Besserung durch Flüssigkeit",
 
-  // Sehstörung
-  { patient: "Auf einer Seite sehe ich nichts", correct: "Hemianopsie" },
-  { patient: "Mir fehlt ein Teil vom Sichtfeld", correct: "Hemianopsie" },
+  // Bewegungsapparat / Gefäße
+  "Bewegungsapparat / Gefaesse|Zittern|Tremor",
+  "Bewegungsapparat / Gefaesse|Steifheit|Rigor",
+  "Bewegungsapparat / Gefaesse|Schwellung|Ödem",
+  "Bewegungsapparat / Gefaesse|Das Bein ist dick|Ödem",
+  "Bewegungsapparat / Gefaesse|Das Bein fühlt sich heiß an|Wärmegefühl",
+  "Bewegungsapparat / Gefaesse|Nachts wird es schlimmer|nächtliche Verschlechterung",
+  "Bewegungsapparat / Gefaesse|Hochlegen hilft|Besserung durch Hochlagerung",
 
-  // Stimmung / Schlaf
-  { patient: "Starke Müdigkeit", correct: "Fatigue" },
-  { patient: "Ich bin ständig erschöpft", correct: "Fatigue" },
-  { patient: "Ich habe keine Energie", correct: "Fatigue" },
-  { patient: "Schlafstörungen", correct: "Insomnie" },
-  { patient: "Ich kann nicht schlafen", correct: "Insomnie" },
+  // Verlauf / Zeit
+  "Verlauf / Zeit|Wird immer schlimmer|progredient",
+  "Verlauf / Zeit|Wird langsam immer schlimmer|langsam progredient",
+  "Verlauf / Zeit|Plötzlich|akut",
+  "Verlauf / Zeit|Zum ersten Mal|erstmalig",
+  "Verlauf / Zeit|Seit gestern|seit gestern",
+  "Verlauf / Zeit|Schon seit Wochen|seit Wochen",
+  "Verlauf / Zeit|Schon lange|seit mehreren Monaten",
+  "Verlauf / Zeit|Es nimmt zu|zunehmend",
+  "Verlauf / Zeit|Es wird besser|Besserung",
+  "Verlauf / Zeit|Es wird schlimmer|Verschlechterung",
 
-  { patient: "Ich bin dauerhaft gedrückt", correct: "Dysthymie" },
-  { patient: "Ich bin nie richtig gut drauf", correct: "Dysthymie" },
-  { patient: "Ich fühle mich sehr niedergeschlagen", correct: "Depression" },
-  { patient: "Ich habe keine Freude mehr", correct: "Depression" },
+  // Sozial / Funktion
+  "Sozial- / Funktionsanamnese|Ich kann nicht richtig arbeiten|beruflich beeinträchtigt",
+  "Sozial- / Funktionsanamnese|Es stört mich im Alltag|Einschränkung im Alltag",
+  "Sozial- / Funktionsanamnese|Meine Arbeit ist sehr stressig|hoher beruflicher Stress",
+  "Sozial- / Funktionsanamnese|Mein Partner ist gestorben|verwitwet",
+  "Sozial- / Funktionsanamnese|Ich wohne mit meinem Sohn|lebt mit Sohn",
 
-  // Sexualanamnese
-  { patient: "Ich habe keine Lust auf Sex", correct: "Frigidität" },
-  { patient: "Sexuelles Interesse fehlt", correct: "Frigidität" },
-
-  /* =========================================================
-     👂 HNO / HALS / STIMME
-     ========================================================= */
-
-  { patient: "Ohrgeräusche", correct: "Tinnitus" },
-  { patient: "Pfeifen im Ohr", correct: "Tinnitus" },
-  { patient: "Ich höre schlechter", correct: "Hörminderung" },
-
-  { patient: "heiser", correct: "Dysphonie" },
-  { patient: "Heisere Stimme", correct: "Dysphonie" },
-  { patient: "Meine Stimme ist weg", correct: "Dysphonie" },
-
-  { patient: "Kloßgefühl im Hals", correct: "Globusgefühl" },
-  { patient: "Kloß im Hals", correct: "Globusgefühl" },
-  { patient: "Als ob etwas im Hals steckt", correct: "Globusgefühl" },
-
-  /* =========================================================
-     🍽️ GASTROINTESTINAL
-     ========================================================= */
-
-  // Schlucken / Reflux
-  { patient: "Schluckstörung", correct: "Dysphagie" },
-  { patient: "Schluckbeschwerden", correct: "Dysphagie" },
-  { patient: "schlecht schlucken", correct: "Dysphagie" },
-  { patient: "Ich kann schlecht schlucken", correct: "Dysphagie" },
-
-  { patient: "Schmerzen beim Schlucken", correct: "Odynophagie" },
-  { patient: "beim Schlucken tut es weh", correct: "Odynophagie" },
-
-  { patient: "Mageninhalt kommt hoch / Rückfluss", correct: "Regurgitation" },
-  { patient: "sauer hochkommen", correct: "Regurgitation" },
-  { patient: "Essen kommt wieder hoch", correct: "Regurgitation" },
-  { patient: "Säure steigt hoch", correct: "Regurgitation" },
-
-  { patient: "Sodbrennen", correct: "Pyrosis" },
-
-  // Appetit / Gewicht
-  { patient: "kein Appetit", correct: "Inappetenz" },
-  { patient: "Wenig Appetit", correct: "Inappetenz" },
-  { patient: "Ich esse kaum noch", correct: "Inappetenz" },
-
-  { patient: "Ich habe keinen Hunger", correct: "Anorexie" },
-  { patient: "Essen interessiert mich nicht", correct: "Anorexie" },
-
-  { patient: "Ich habe abgenommen", correct: "Gewichtsverlust" },
-  { patient: "Ich verliere Gewicht ohne Grund", correct: "Gewichtsverlust" },
-  { patient: "Die Kilos gehen runter ohne Grund", correct: "Gewichtsverlust" },
-
-  // Darm
-  { patient: "Durchfall", correct: "Diarrhö" },
-  { patient: "Verstopfung", correct: "Obstipation" },
-  { patient: "Ich kann nicht auf Toilette", correct: "Obstipation" },
-
-  { patient: "Schwarzer Stuhl", correct: "Meläna" },
-  { patient: "Blut im Stuhl", correct: "Hämatochezie" },
-
-  { patient: "Bauchschmerzen", correct: "Abdominalschmerzen" },
-  { patient: "Krampfartige Schmerzen", correct: "kolikartig" },
-
-  { patient: "Nach dem Essen", correct: "postprandial" },
-
-  /* =========================================================
-     🌡️ ALLGEMEIN / VEGETATIV
-     ========================================================= */
-
-  { patient: "Fieber", correct: "Pyrexie" },
-  { patient: "Ich hatte 38–39 Grad", correct: "Pyrexie" },
-
-  { patient: "Starkes Schwitzen", correct: "Hyperhidrose" },
-  { patient: "Ich schwitze extrem", correct: "Hyperhidrose" },
-
-  { patient: "Vermehrter Speichelfluss", correct: "Hypersalivation" },
-
-  /* =========================================================
-     🫁 ATEMWEGE / INFEKT
-     ========================================================= */
-
-  { patient: "Husten", correct: "Tussis" },
-  { patient: "Ich muss ständig husten", correct: "Tussis" },
-
-  { patient: "Trockener Husten", correct: "unproduktiver Husten" },
-  { patient: "Ohne Schleim", correct: "unproduktiver Husten" },
-
-  { patient: "Erbrechen", correct: "Emesis" },
-  { patient: "Ich musste mich übergeben", correct: "Emesis" },
-
-  { patient: "Übelkeit", correct: "Nausea" },
-  { patient: "Mir ist schlecht", correct: "Nausea" },
-
-  { patient: "Atemnot", correct: "Dyspnoe" },
-
-  /* =========================================================
-     ❤️ THORAX / KARDIOPULMONAL
-     ========================================================= */
-
-  { patient: "Schmerzen hinter dem Brustbein", correct: "retrosternaler Schmerz" },
-  { patient: "Brustschmerzen", correct: "thorakale Schmerzen" },
-  { patient: "Hinter dem Brustbein", correct: "retrosternal" },
-  { patient: "Brennt wie Feuer", correct: "brennend" },
-  { patient: "Zieht in den Hals / Arm", correct: "ausstrahlend" },
-  { patient: "Zieht in den Hals", correct: "Ausstrahlung" },
-  { patient: "Wird bei Bewegung schlimmer", correct: "belastungsabhängig" },
-  { patient: "Wird beim Aufstehen schlimmer", correct: "lageabhängig" },
-  { patient: "Wasser hilft", correct: "Besserung durch Flüssigkeit" },
-
-  /* =========================================================
-     🦵 BEWEGUNGSAPPARAT / GEFÄSSE
-     ========================================================= */
-
-  { patient: "Zittern", correct: "Tremor" },
-  { patient: "Steifheit", correct: "Rigor" },
-  { patient: "Schwellung", correct: "Ödem" },
-  { patient: "Das Bein ist dick", correct: "Ödem" },
-  { patient: "Das Bein fühlt sich heiß an", correct: "Wärmegefühl" },
-  { patient: "Nachts wird es schlimmer", correct: "nächtliche Verschlechterung" },
-  { patient: "Hochlegen hilft", correct: "Besserung durch Hochlagerung" },
-
-  /* =========================================================
-     ⏳ VERLAUF / ZEIT
-     ========================================================= */
-
-  { patient: "Wird immer schlimmer", correct: "progredient" },
-  { patient: "Wird langsam immer schlimmer", correct: "langsam progredient" },
-  { patient: "Plötzlich", correct: "akut" },
-  { patient: "Zum ersten Mal", correct: "erstmalig" },
-  { patient: "Seit gestern", correct: "seit gestern" },
-  { patient: "Schon seit Wochen", correct: "seit Wochen" },
-  { patient: "Schon lange", correct: "seit mehreren Monaten" },
-  { patient: "Es nimmt zu", correct: "zunehmend" },
-  { patient: "Es wird besser", correct: "Besserung" },
-  { patient: "Es wird schlimmer", correct: "Verschlechterung" },
-
-  /* =========================================================
-     👨‍👩‍👧 SOZIAL- / FUNKTIONSANAMNESE
-     ========================================================= */
-
-  { patient: "Ich kann nicht richtig arbeiten", correct: "beruflich beeinträchtigt" },
-  { patient: "Es stört mich im Alltag", correct: "Einschränkung im Alltag" },
-  { patient: "Meine Arbeit ist sehr stressig", correct: "hoher beruflicher Stress" },
-  { patient: "Mein Partner ist gestorben", correct: "verwitwet" },
-  { patient: "Ich wohne mit meinem Sohn", correct: "lebt mit Sohn" },
-
-  /* =========================================================
-     ⚠️ RISIKOFAKTOREN / GEWOHNHEITEN
-     ========================================================= */
-
-  { patient: "Ich rauche", correct: "Nikotinabusus" },
-  { patient: "Viele Zigaretten am Tag", correct: "Nikotinabusus" },
-  { patient: "Jeden Tag ein Glas", correct: "Alkohol täglich" },
-  { patient: "Ab und zu", correct: "gelegentlicher Konsum" },
-  { patient: "Ich nehme keine Drogen", correct: "Drogenkonsum verneint" }
-
+  // Risiken / Gewohnheiten
+  "Risikofaktoren / Gewohnheiten|Ich rauche|Nikotinabusus",
+  "Risikofaktoren / Gewohnheiten|Viele Zigaretten am Tag|Nikotinabusus",
+  "Risikofaktoren / Gewohnheiten|Jeden Tag ein Glas|Alkohol täglich",
+  "Risikofaktoren / Gewohnheiten|Ab und zu|gelegentlicher Konsum",
+  "Risikofaktoren / Gewohnheiten|Ich nehme keine Drogen|Drogenkonsum verneint"
 ];
+
+window.ITEMS = window.RAW_ITEMS.map(row => {
+  const [deck, patient, correct] = row.split("|").map(s => s.trim());
+  return { deck, patient, correct };
+});
