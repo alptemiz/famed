@@ -2,7 +2,6 @@
 // compact 3-column format: deck | patient | correct
 
 window.RAW_ITEMS = [
-
   // Neurologisch / Psychisch
   "Neurologisch / Psychisch|Kopfschmerzen|Cephalgie",
   "Neurologisch / Psychisch|Mein Kopf tut weh|Cephalgie",
@@ -14,7 +13,7 @@ window.RAW_ITEMS = [
   "Neurologisch / Psychisch|Ich halte kein helles Licht aus|Photophobie",
   "Neurologisch / Psychisch|Geräusche sind unerträglich|Phonophobie",
   "Neurologisch / Psychisch|Lärm macht es schlimmer|Phonophobie",
-  "Neurologisch / Psychisch|Schwindel|Vertigo",
+  "Neurologisch / Psychisch|Schwindel|Schwindel",
   "Neurologisch / Psychisch|Mir dreht sich alles|Vertigo",
   "Neurologisch / Psychisch|Ich habe das Gefühl, alles schwankt|Vertigo",
   "Neurologisch / Psychisch|Die Augen wackeln|Nystagmus",
@@ -111,7 +110,7 @@ window.RAW_ITEMS = [
 
   // Bewegungsapparat / Gefäße
   "Bewegungsapparat / Gefaesse|Zittern|Tremor",
-  "Bewegungsapparat / Gefaesse|Steifheit|Rigor",
+  "Bewegungsapparat / Gefaesse|Steifheit|Rigor;Steifigkeit",
   "Bewegungsapparat / Gefaesse|Schwellung|Ödem",
   "Bewegungsapparat / Gefaesse|Das Bein ist dick|Ödem",
   "Bewegungsapparat / Gefaesse|Das Bein fühlt sich heiß an|Wärmegefühl",
@@ -142,10 +141,23 @@ window.RAW_ITEMS = [
   "Risikofaktoren / Gewohnheiten|Viele Zigaretten am Tag|Nikotinabusus",
   "Risikofaktoren / Gewohnheiten|Jeden Tag ein Glas|Alkohol täglich",
   "Risikofaktoren / Gewohnheiten|Ab und zu|gelegentlicher Konsum",
-  "Risikofaktoren / Gewohnheiten|Ich nehme keine Drogen|Drogenkonsum verneint"
+  "Risikofaktoren / Gewohnheiten|Ich nehme keine Drogen|Drogenkonsum verneint",
+
+  // Negationen
+
+  "Allgemein / Negation|Nein, sonst nichts|weitere Begleitsymptome wurden verneint",
+  "Allgemein / Negation|Ich habe kein Fieber|Fieber wurde verneint",
+  "Allgemein / Negation|Keine Übelkeit|Nausea wurde verneint",
+  "Allgemein / Negation|Ich musste nicht erbrechen|Emesis wurde verneint",
+  "Allgemein / Negation|Keine Atemnot|Dyspnoe wurde verneint",
 ];
 
 window.ITEMS = window.RAW_ITEMS.map(row => {
-  const [deck, patient, correct] = row.split("|").map(s => s.trim());
+  const [deck, patient, correctRaw] = row.split("|").map(s => s.trim());
+
+  const correct = correctRaw.includes(";")
+    ? correctRaw.split(";").map(s => s.trim())
+    : [correctRaw];
+
   return { deck, patient, correct };
 });

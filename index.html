@@ -1,336 +1,648 @@
 ﻿<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Umgangssprache -> Fachsprache Quiz</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Umgangssprache -> Fachsprache Quiz</title>
 
-  <style>
-    :root {
-      --ok: #1b8f3a;
-      --bad: #c62828;
-      --warn: #ee8800;
-      --border: #d9d9d9;
-      --bg: #ffffff;
-      --muted: #666;
-    }
+    <style>
+      :root {
+        --ok: #1b8f3a;
+        --bad: #c62828;
+        --warn: #ee8800;
+        --border: #d9d9d9;
+        --bg: #ffffff;
+        --muted: #666;
+      }
 
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: #f6f7f9;
-      margin: 0;
-      padding: 24px;
-      color: #111;
-    }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        font-size: 12pt;
+        background: #f6f7f9;
+        margin: 0;
+        padding: 24px;
+        color: #111;
+      }
 
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
 
-    th, td {
-      border: 1px solid var(--border);
-      padding: 10px;
-      vertical-align: middle;
-    }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px;
+        vertical-align: middle;
+      }
 
-    th {
-      text-align: left;
-      font-size: 13px;
-      background: #fafafa;
-    }
+      th {
+        text-align: left;
+        font-size: 13px;
+        background: #fafafa;
+      }
 
-    td.patient { width: 42%; font-weight: 600; }
-    td.answer  { width: 48%; }
-    td.check   { width: 70px; text-align: center; }
-    td.status  { width: 90px; text-align: center; font-weight: 700; }
+      td.patient {
+        width: 42%;
+        font-weight: 600;
+        font-size: 12pt;
+      }
 
-    input[type="text"] {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px 12px;
-      border: 1px solid #cfcfcf;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-    }
+      td.answer {
+        width: 48%;
+      }
+      th.help,
+      td.help {
+        width: 50px;
+        max-width: 50px;
+        padding: 4px;
+        text-align: center;
+      }
 
-    input[type="text"]:focus {
-      border-color: #7aa7ff;
-      box-shadow: 0 0 0 3px rgba(122,167,255,0.2);
-    }
+      td.status {
+        width: 120px;
+        text-align: center;
+        font-weight: 700;
+      }
 
-    .status.ok   { color: var(--ok); }
-    .status.bad  { color: var(--bad); }
-    .status.warn { color: var(--warn); }
+      input[type="text"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 8px;
+        border: 1px solid #cfcfcf;
+        border-radius: 8px;
+        font-size: 12pt;
+        line-height: 1.2;
+        outline: none;
+      }
 
-    .controls {
-      display: flex;
-      gap: 10px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+      input[type="text"]:focus {
+        border-color: #7aa7ff;
+        box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.2);
+      }
 
-    button {
-      border: 1px solid var(--border);
-      background: #fff;
-      padding: 10px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-    }
+      .status.ok {
+        color: var(--ok);
+      }
+      .status.bad {
+        color: var(--bad);
+      }
+      .status.warn {
+        color: var(--warn);
+      }
 
-    button:hover { background: #f3f4f6; }
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
 
-    .small { font-size: 12px; color: var(--muted); }
+      button {
+        border: 1px solid var(--border);
+        background: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
 
-    .deck-panel {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      margin: 0 0 14px 0;
-      background: #fcfcfc;
-    }
+      button:hover {
+        background: #f3f4f6;
+      }
 
-    .deck-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-    }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
 
-    .deck-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 14px;
-    }
+      .deck-panel {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        margin: 0 0 14px 0;
+        background: #fcfcfc;
+      }
 
-    .deck-item {
-      display: inline-flex;
-      gap: 6px;
-      align-items: center;
-      font-size: 13px;
-    }
-  </style>
-</head>
+      .deck-title {
+        font-size: 13px;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+      }
 
-<body>
-<div class="wrap">
+      .deck-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+      }
 
-  <div class="deck-panel">
-    <div class="deck-title">Decks aktivieren</div>
-    <div id="deckList" class="deck-list"></div>
-    <div style="margin-top:8px; display:flex; gap:8px;">
-      <button id="selectAllDecks">Alle Decks</button>
-      <button id="clearDecks">Keine Decks</button>
+      .deck-item {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 13px;
+      }
+
+      .row-controls {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .toggle {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 13px;
+        color: #222;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="deck-panel">
+        <div class="deck-title">Decks aktivieren</div>
+        <div id="deckList" class="deck-list"></div>
+
+        <div class="row-controls">
+          <button id="selectAllDecks" type="button">Alle Decks</button>
+          <button id="clearDecks" type="button">Keine Decks</button>
+
+          <span style="flex: 1 1 auto"></span>
+
+          <label class="toggle">
+            <input type="checkbox" id="randomOrder" />
+            Zufällige Reihenfolge
+          </label>
+          <button id="reshuffle" type="button">Neu mischen</button>
+        </div>
+      </div>
+
+      <table aria-label="Quiz Tabelle">
+        <thead>
+          <tr>
+            <th>Umgangssprache</th>
+            <th>Fachsprache</th>
+            <th class="help">Hilfe</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <div class="controls">
+        <button id="checkAll" type="button">Alles anzeigen</button>
+        <button id="reset" type="button">Zuruecksetzen</button>
+        <span class="small" id="score"></span>
+      </div>
     </div>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Umgangssprache</th>
-        <th>Fachsprache</th>
-        <th class="check">Pruefen</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
+    <script src="dictionary.js"></script>
 
-  <div class="controls">
-    <button id="checkAll">Alles pruefen</button>
-    <button id="reset">Zuruecksetzen</button>
-    <span class="small" id="score"></span>
-  </div>
+    <script>
+      const ITEMS = window.ITEMS || [];
 
-</div>
+      const rowsEl = document.getElementById("rows");
+      const deckListEl = document.getElementById("deckList");
+      const scoreEl = document.getElementById("score");
 
-<script src="dictionary.js"></script>
+      function deckOf(i) {
+        const d = i && typeof i === "object" ? i.deck : null;
+        return typeof d === "string" && d.trim() ? d.trim() : "Unkategorisiert";
+      }
 
-<script>
-const ITEMS = window.ITEMS || [];
+      function getDeckNames(items) {
+        return [...new Set(items.map(deckOf))].sort((a, b) =>
+          a.localeCompare(b, "de"),
+        );
+      }
 
-const rowsEl = document.getElementById("rows");
-const deckListEl = document.getElementById("deckList");
-const scoreEl = document.getElementById("score");
+      let selectedDecks = new Set(getDeckNames(ITEMS));
+      let activeItems = [];
+      let randomMode = false;
 
-function getDeckNames(items) {
-  return [...new Set(items.map(i => i.deck))].sort();
-}
+      function normalizeSpaces(s) {
+        return String(s ?? "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
 
-let selectedDecks = new Set(getDeckNames(ITEMS));
-let activeItems = [];
+      function revealCorrect(correct) {
+        if (Array.isArray(correct)) return correct.join(" / ");
+        return String(correct ?? "");
+      }
 
-function normalizeSpaces(s) {
-  return String(s ?? "").replace(/\s+/g, " ").trim();
-}
+      // Like normalizeSpaces, but keeps ONE trailing space if the user typed one.
+      // This enables help to progress from "word " to the first letter of the next word.
+      function normalizeKeepTrailingSpace(s) {
+        const raw = String(s ?? "");
 
-function evaluate(input, correct) {
-  const a = normalizeSpaces(input);
-  const c = normalizeSpaces(correct);
+        const hasTrailingSpace = /\s$/.test(raw);
 
-  if (!a) return { kind: "empty", symbol: "" };
-  if (a === c) return { kind: "ok", symbol: "OK" };
-  if (a.toLowerCase() === c.toLowerCase()) return { kind: "warn", symbol: "!" };
-  return { kind: "bad", symbol: "X" };
-}
+        // collapse whitespace to single spaces
+        let out = raw.replace(/\s+/g, " ");
 
-function buildActiveItems() {
-  activeItems = ITEMS.filter(i => selectedDecks.has(i.deck));
-}
+        // remove leading spaces
+        out = out.replace(/^\s+/, "");
 
-function renderDeckSelector() {
-  deckListEl.innerHTML = "";
+        if (hasTrailingSpace) {
+          // keep exactly one trailing space
+          out = out.replace(/\s*$/, "") + " ";
+        } else {
+          // otherwise trim end
+          out = out.replace(/\s+$/, "");
+        }
 
-  getDeckNames(ITEMS).forEach(deck => {
-    const label = document.createElement("label");
-    label.className = "deck-item";
+        return out;
+      }
 
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.checked = selectedDecks.has(deck);
-    cb.onchange = () => {
-      cb.checked ? selectedDecks.add(deck) : selectedDecks.delete(deck);
+      // Supports single correct string OR array of acceptable answers
+      function evaluate(input, correct) {
+        const a = normalizeSpaces(input);
+        if (!a) return { kind: "empty", symbol: "" };
+
+        const answers = Array.isArray(correct) ? correct : [correct];
+        const normAnswers = answers.map((x) => normalizeSpaces(x));
+
+        if (normAnswers.some((c) => a === c))
+          return { kind: "ok", symbol: "OK" };
+        if (normAnswers.some((c) => a.toLowerCase() === c.toLowerCase()))
+          return { kind: "warn", symbol: "!" };
+
+        return { kind: "bad", symbol: "X" };
+      }
+
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function buildActiveItems() {
+        const base = ITEMS.filter((i) => selectedDecks.has(deckOf(i)));
+
+        if (randomMode) {
+          activeItems = shuffleArray(base.slice());
+        } else {
+          activeItems = base.slice().sort((a, b) => {
+            const d = deckOf(a).localeCompare(deckOf(b), "de");
+            if (d !== 0) return d;
+            return String(a.patient || "").localeCompare(
+              String(b.patient || ""),
+              "de",
+            );
+          });
+        }
+      }
+
+      function renderDeckSelector() {
+        deckListEl.innerHTML = "";
+
+        getDeckNames(ITEMS).forEach((deck) => {
+          const label = document.createElement("label");
+          label.className = "deck-item";
+
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = selectedDecks.has(deck);
+          cb.addEventListener("change", () => {
+            if (cb.checked) selectedDecks.add(deck);
+            else selectedDecks.delete(deck);
+            render();
+          });
+
+          const count = ITEMS.filter((i) => deckOf(i) === deck).length;
+
+          const txt = document.createElement("span");
+          txt.textContent = deck + " (" + count + ")";
+
+          label.appendChild(cb);
+          label.appendChild(txt);
+          deckListEl.appendChild(label);
+        });
+      }
+
+      // If multiple correct answers exist, pick the one with the longest common prefix (case-insensitive).
+      // This stabilizes help behavior for answers like "Rigor;Steifigkeit".
+      function pickBestCorrect(correct, currentInput) {
+        const current = normalizeSpaces(currentInput);
+        const answers = Array.isArray(correct) ? correct : [correct];
+        const norm = answers.map((x) => normalizeSpaces(x));
+
+        if (norm.length === 0) return "";
+
+        if (!current) return norm[0];
+
+        const curLower = current.toLowerCase();
+
+        let best = norm[0];
+        let bestScore = -1;
+
+        for (const cand of norm) {
+          const cLower = cand.toLowerCase();
+          // common prefix length
+          let k = 0;
+          while (
+            k < curLower.length &&
+            k < cLower.length &&
+            curLower[k] === cLower[k]
+          )
+            k++;
+          if (k > bestScore) {
+            bestScore = k;
+            best = cand;
+          }
+        }
+        return best;
+      }
+
+      // Hilfe rule (case-aware correction):
+      // - if input empty: set to first char of correct (with correct casing)
+      // - else find first position where input differs from correct (case-insensitive)
+      //     - if mismatch at pos 0: replace whole input with first correct char
+      //     - else keep correct prefix up to mismatch, then append the correct char at mismatch position
+      // - if input matches correct fully (ignoring case): normalize to correct casing (set exact correct)
+      function applyHelp(idx) {
+        const inputEl = document.querySelector(`input[data-idx="${idx}"]`);
+        if (!inputEl || !activeItems[idx]) return;
+
+        const item = activeItems[idx];
+        const correct = pickBestCorrect(item.correct, inputEl.value);
+        const corr = String(correct ?? "");
+        if (!corr) return;
+
+        const currentRaw = String(inputEl.value ?? "");
+        const current = normalizeKeepTrailingSpace(currentRaw);
+
+        // if empty -> first char
+        if (!current) {
+          inputEl.value = corr.slice(0, 1);
+          updateRow(idx);
+          updateScore();
+          return;
+        }
+
+        const curLower = current.toLowerCase();
+        const corrLower = corr.toLowerCase();
+
+        // If user already matches full answer (ignoring case), fix casing exactly
+        // BUT only if they didn't end with a trailing space.
+        if (!current.endsWith(" ") && curLower === corrLower) {
+          inputEl.value = corr;
+          updateRow(idx);
+          updateScore();
+          return;
+        }
+
+        // find first mismatch position
+        const minLen = Math.min(curLower.length, corrLower.length);
+        let mismatch = -1;
+
+        for (let i = 0; i < minLen; i++) {
+          if (curLower[i] !== corrLower[i]) {
+            mismatch = i;
+            break;
+          }
+        }
+
+        // if no mismatch within minLen:
+        // - either current is a correct prefix (shorter) OR current is longer than correct
+        if (mismatch === -1) {
+          if (current.length < corr.length) {
+            // correct prefix -> append next correct char
+            inputEl.value =
+              current + corr.slice(current.length, current.length + 1);
+          } else {
+            // current longer than correct -> reset to first correct char
+            inputEl.value = corr.slice(0, 1);
+          }
+          updateRow(idx);
+          updateScore();
+          return;
+        }
+
+        // mismatch found
+        if (mismatch === 0) {
+          // completely wrong -> clear and add first correct char
+          inputEl.value = corr.slice(0, 1);
+        } else {
+          // keep correct prefix, append correct char at mismatch pos
+          const prefix = corr.slice(0, mismatch);
+          const nextChar = corr.slice(mismatch, mismatch + 1);
+          inputEl.value = prefix + nextChar;
+        }
+
+        updateRow(idx);
+        updateScore();
+      }
+
+      function render() {
+        buildActiveItems();
+        rowsEl.innerHTML = "";
+
+        if (!Array.isArray(ITEMS) || ITEMS.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 4;
+          td.style.color = "#666";
+          td.textContent =
+            "Keine Items geladen. Pruefe dictionary.js (window.ITEMS).";
+          tr.appendChild(td);
+          rowsEl.appendChild(tr);
+          scoreEl.textContent = "";
+          return;
+        }
+
+        if (activeItems.length === 0) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 4;
+          td.style.color = "#666";
+          td.textContent = "Kein Deck aktiv";
+          tr.appendChild(td);
+          rowsEl.appendChild(tr);
+          scoreEl.textContent = "";
+          return;
+        }
+
+        activeItems.forEach((item, idx) => {
+          const tr = document.createElement("tr");
+
+          const tdP = document.createElement("td");
+          tdP.className = "patient";
+          tdP.textContent = item.patient ?? "";
+
+          const tdA = document.createElement("td");
+          tdA.className = "answer";
+
+          const input = document.createElement("input");
+          input.type = "text";
+          input.autocomplete = "off";
+          input.spellcheck = false;
+          input.placeholder = "Fachsprache eingeben...";
+          input.dataset.idx = String(idx);
+
+          input.addEventListener("input", () => {
+            updateRow(idx);
+            updateScore();
+          });
+
+          tdA.appendChild(input);
+
+          const tdH = document.createElement("td");
+          tdH.className = "help";
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = "Hilfe";
+          btn.style.padding = "6px 10px";
+          btn.style.fontSize = "12px";
+
+          btn.addEventListener("click", () => applyHelp(idx));
+          tdH.appendChild(btn);
+
+          const tdS = document.createElement("td");
+          tdS.className = "status";
+          tdS.id = "status-" + idx;
+
+          tr.append(tdP, tdA, tdH, tdS);
+          rowsEl.appendChild(tr);
+        });
+
+        updateScore();
+      }
+
+      // Status behavior:
+      // - OK / ! => show full correct answer
+      // - X => show X
+      function updateRow(idx) {
+        const input = document.querySelector(`input[data-idx="${idx}"]`);
+        const statusEl = document.getElementById("status-" + idx);
+        if (!input || !statusEl || !activeItems[idx]) return;
+
+        const item = activeItems[idx];
+        const res = evaluate(input.value, item.correct);
+
+        statusEl.className = "status";
+        if (res.kind !== "empty") statusEl.classList.add(res.kind);
+
+        if (res.kind === "ok" || res.kind === "warn") {
+          statusEl.textContent = revealCorrect(item.correct);
+        } else if (res.kind === "bad") {
+          statusEl.textContent = "X";
+        } else {
+          statusEl.textContent = "";
+        }
+      }
+
+      function updateScore() {
+        let ok = 0,
+          warn = 0,
+          bad = 0,
+          filled = 0;
+
+        if (!Array.isArray(activeItems) || activeItems.length === 0) {
+          scoreEl.textContent = "";
+          return;
+        }
+
+        activeItems.forEach((item, idx) => {
+          const input = document.querySelector(`input[data-idx="${idx}"]`);
+          const res = evaluate(input ? input.value : "", item.correct);
+          if (res.kind !== "empty") filled++;
+          if (res.kind === "ok") ok++;
+          if (res.kind === "warn") warn++;
+          if (res.kind === "bad") bad++;
+        });
+
+        scoreEl.textContent =
+          "Ausgefuellt " +
+          filled +
+          "/" +
+          activeItems.length +
+          " | OK " +
+          ok +
+          " | ! " +
+          warn +
+          " | X " +
+          bad;
+      }
+
+      document.getElementById("checkAll").addEventListener("click", () => {
+        if (!Array.isArray(activeItems) || activeItems.length === 0) return;
+        activeItems.forEach((item, idx) => {
+          const statusEl = document.getElementById("status-" + idx);
+          if (!statusEl) return;
+          statusEl.className = "status warn";
+          statusEl.textContent = revealCorrect(item.correct);
+        });
+      });
+
+      document.getElementById("reset").addEventListener("click", () => {
+        document
+          .querySelectorAll('input[type="text"]')
+          .forEach((i) => (i.value = ""));
+        if (Array.isArray(activeItems)) {
+          activeItems.forEach((_, idx) => {
+            const statusEl = document.getElementById("status-" + idx);
+            if (!statusEl) return;
+            statusEl.textContent = "";
+            statusEl.className = "status";
+          });
+        }
+        updateScore();
+      });
+
+      document
+        .getElementById("selectAllDecks")
+        .addEventListener("click", () => {
+          selectedDecks = new Set(getDeckNames(ITEMS));
+          renderDeckSelector();
+          render();
+        });
+
+      document.getElementById("clearDecks").addEventListener("click", () => {
+        selectedDecks = new Set();
+        renderDeckSelector();
+        render();
+      });
+
+      document.getElementById("randomOrder").addEventListener("change", (e) => {
+        randomMode = Boolean(e.target.checked);
+        render();
+      });
+
+      document.getElementById("reshuffle").addEventListener("click", () => {
+        if (randomMode) render();
+      });
+
+      renderDeckSelector();
       render();
-    };
-
-    const count = ITEMS.filter(i => i.deck === deck).length;
-
-    const txt = document.createElement("span");
-    txt.textContent = deck + " (" + count + ")";
-
-    label.appendChild(cb);
-    label.appendChild(txt);
-    deckListEl.appendChild(label);
-  });
-}
-
-function render() {
-  buildActiveItems();
-  rowsEl.innerHTML = "";
-
-  if (activeItems.length === 0) {
-    const tr = document.createElement("tr");
-    const td = document.createElement("td");
-    td.colSpan = 4;
-    td.textContent = "Kein Deck aktiv";
-    tr.appendChild(td);
-    rowsEl.appendChild(tr);
-    scoreEl.textContent = "";
-    return;
-  }
-
-  activeItems.forEach((item, idx) => {
-    const tr = document.createElement("tr");
-
-    const tdP = document.createElement("td");
-    tdP.className = "patient";
-    tdP.textContent = item.patient;
-
-    const tdA = document.createElement("td");
-    const input = document.createElement("input");
-    input.type = "text";
-    input.dataset.idx = idx;
-
-    input.oninput = () => {
-      updateRow(idx);
-      updateScore();
-    };
-
-    tdA.appendChild(input);
-
-    const tdC = document.createElement("td");
-    tdC.className = "check";
-    const btn = document.createElement("button");
-    btn.textContent = "Pruefen";
-    btn.onclick = () => {
-      input.value = input.value;
-      updateRow(idx, true);
-      updateScore();
-    };
-    tdC.appendChild(btn);
-
-    const tdS = document.createElement("td");
-    tdS.className = "status";
-    tdS.id = "status-" + idx;
-
-    tr.append(tdP, tdA, tdC, tdS);
-    rowsEl.appendChild(tr);
-  });
-
-  updateScore();
-}
-
-function updateRow(idx, reveal=false) {
-  const input = document.querySelector(`input[data-idx="${idx}"]`);
-  const statusEl = document.getElementById("status-" + idx);
-  if (!input || !statusEl) return;
-
-  const res = evaluate(input.value, activeItems[idx].correct);
-
-  statusEl.className = "status";
-  if (res.kind !== "empty") statusEl.classList.add(res.kind);
-
-  statusEl.textContent = reveal ? activeItems[idx].correct : res.symbol;
-}
-
-function updateScore() {
-  let ok=0, warn=0, bad=0, filled=0;
-
-  activeItems.forEach((item, idx) => {
-    const input = document.querySelector(`input[data-idx="${idx}"]`);
-    const res = evaluate(input?.value, item.correct);
-    if (res.kind !== "empty") filled++;
-    if (res.kind === "ok") ok++;
-    if (res.kind === "warn") warn++;
-    if (res.kind === "bad") bad++;
-  });
-
-  scoreEl.textContent =
-    `Ausgefuellt ${filled}/${activeItems.length} | OK ${ok} | ! ${warn} | X ${bad}`;
-}
-
-document.getElementById("checkAll").onclick = () => {
-  activeItems.forEach((_, idx) => updateRow(idx, true));
-  updateScore();
-};
-
-document.getElementById("reset").onclick = () => {
-  document.querySelectorAll("input[type=text]").forEach(i => i.value = "");
-  document.querySelectorAll(".status").forEach(s => {
-    s.textContent = "";
-    s.className = "status";
-  });
-  updateScore();
-};
-
-document.getElementById("selectAllDecks").onclick = () => {
-  selectedDecks = new Set(getDeckNames(ITEMS));
-  renderDeckSelector();
-  render();
-};
-
-document.getElementById("clearDecks").onclick = () => {
-  selectedDecks = new Set();
-  renderDeckSelector();
-  render();
-};
-
-renderDeckSelector();
-render();
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
