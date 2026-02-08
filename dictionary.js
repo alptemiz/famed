@@ -2,6 +2,91 @@
 // compact 3-column format: deck | patient | correct
 
 window.RAW_ITEMS = [
+
+
+
+"NEU: atmung-infektion|Husten|Tussis",
+"NEU: atmung-infektion|Atemnot|Dyspnoe",
+"NEU: atmung-infektion|Schnupfen|Rhinorrhoe",
+"NEU: atmung-infektion|Halsschmerzen|Pharyngodynie",
+"NEU: atmung-infektion|Heiserkeit|Dysphonie",
+"NEU: atmung-infektion|Fieber|Pyrexie",
+"NEU: atmung-infektion|Auswurf|Sputum",
+
+"NEU: neuro|Kopfschmerzen|Cephalgie",
+"NEU: neuro|Schwindel|Vertigo",
+"NEU: neuro|Zittern|Tremor",
+"NEU: neuro|Ohnmacht|Synkope",
+"NEU: neuro|Beinahe-Ohnmacht|Präsynkope",
+"NEU: neuro|Kribbeln|Parästhesie",
+"NEU: neuro|Taubheitsgefühl|Hypästhesie",
+"NEU: neuro|Lähmung|Parese",
+
+"NEU: gastro|Übelkeit|Nausea",
+"NEU: gastro|Erbrechen|Emesis",
+"NEU: gastro|Bluterbrechen|Hämatemesis",
+"NEU: gastro|Durchfall|Diarrhoe",
+"NEU: gastro|Verstopfung|Obstipation",
+"NEU: gastro|Schluckstörung|Dysphagie",
+"NEU: gastro|Bauchschmerzen|Abdominalschmerzen",
+"NEU: gastro|Sodbrennen|Pyrosis",
+
+"NEU: kardio-thorax|Brustschmerzen|Thoraxschmerzen",
+"NEU: kardio-thorax|Herzklopfen|Palpitationen",
+"NEU: kardio-thorax|Brustenge|Angina-pectoris-Beschwerden",
+
+"NEU: bewegungsapparat|Rückenschmerzen|Dorsalgie",
+"NEU: bewegungsapparat|Kreuzschmerzen|Lumbalgie",
+"NEU: bewegungsapparat|Nackenschmerzen|Cervikalgie",
+"NEU: bewegungsapparat|Gelenkschmerzen|Arthralgie",
+"NEU: bewegungsapparat|Muskelschmerzen|Myalgie",
+"NEU: bewegungsapparat|steife Gelenke|Gelenksteife",
+
+"NEU: allgemein|Müdigkeit|Fatigue",
+"NEU: allgemein|Appetitlosigkeit|Inappetenz",
+"NEU: allgemein|Gewichtsabnahme|Gewichtsverlust",
+"NEU: allgemein|Nachtschweiß|Nachtschweiß",
+
+
+
+"NEU: atmung-infektion|blutiger Husten|Hämoptyse",
+"NEU: atmung-infektion|pfeifende Atmung|Giemen",
+"NEU: atmung-infektion|Atemstillstand|Apnoe",
+
+"NEU: neuro|Krampfanfall|zerebraler Anfall",
+"NEU: neuro|Gedächtnisstörung|Amnesie",
+"NEU: neuro|Sprachstörung|Aphasie",
+"NEU: neuro|Gangunsicherheit|Ataxie",
+"NEU: neuro|Sehstörung|Visusstörung",
+
+"NEU: gastro|Blut im Stuhl|Hämatochezie",
+"NEU: gastro|schwarzer Stuhl|Meläna",
+"NEU: gastro|aufgeblähter Bauch|Meteorismus",
+"NEU: gastro|Aufstoßen|Ruktus",
+
+"NEU: kardio-thorax|Herzrasen|Tachykardie",
+"NEU: kardio-thorax|langsamer Puls|Bradykardie",
+"NEU: kardio-thorax|unregelmäßiger Herzschlag|Arrhythmie",
+"NEU: kardio-thorax|Wassereinlagerung in den Beinen|periphere Ödeme",
+
+"NEU: urogenital|Schmerzen beim Wasserlassen|Dysurie",
+"NEU: urogenital|häufiges Wasserlassen|Pollakisurie",
+"NEU: urogenital|nächtliches Wasserlassen|Nykturie",
+"NEU: urogenital|Blut im Urin|Hämaturie",
+"NEU: urogenital|Harnverhalt|Ischurie",
+
+"NEU: haut|Hautausschlag|Exanthem",
+"NEU: haut|Juckreiz|Pruritus",
+"NEU: haut|blaue Flecken|Hämatome",
+
+"NEU: allgemein|Schlaflosigkeit|Insomnie",
+"NEU: allgemein|Benommenheit|Somnolenz",
+"NEU: allgemein|Bewusstseinsstörung|Vigilanzstörung",
+
+
+
+
+
   // Neurologisch / Psychisch
   "Neurologisch / Psychisch|Kopfschmerzen|Cephalgie",
   "Neurologisch / Psychisch|Mein Kopf tut weh|Cephalgie",

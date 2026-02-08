@@ -69,6 +69,7 @@
       td.answer {
         width: 48%;
       }
+
       th.help,
       td.help {
         width: 50px;
@@ -234,16 +235,6 @@
         return typeof d === "string" && d.trim() ? d.trim() : "Unkategorisiert";
       }
 
-      function getDeckNames(items) {
-        return [...new Set(items.map(deckOf))].sort((a, b) =>
-          a.localeCompare(b, "de"),
-        );
-      }
-
-      let selectedDecks = new Set(getDeckNames(ITEMS));
-      let activeItems = [];
-      let randomMode = false;
-
       function normalizeSpaces(s) {
         return String(s ?? "")
           .replace(/\s+/g, " ")
@@ -259,57 +250,60 @@
       // This enables help to progress from "word " to the first letter of the next word.
       function normalizeKeepTrailingSpace(s) {
         const raw = String(s ?? "");
-
         const hasTrailingSpace = /\s$/.test(raw);
 
-        // collapse whitespace to single spaces
         let out = raw.replace(/\s+/g, " ");
-
-        // remove leading spaces
         out = out.replace(/^\s+/, "");
 
         if (hasTrailingSpace) {
-          // keep exactly one trailing space
           out = out.replace(/\s*$/, "") + " ";
         } else {
-          // otherwise trim end
           out = out.replace(/\s+$/, "");
         }
-
         return out;
       }
 
-      // Supports single correct string OR array of acceptable answers
-      function evaluate(input, correct) {
-        const a = normalizeSpaces(input);
-        if (!a) return { kind: "empty", symbol: "" };
-
-        const answers = Array.isArray(correct) ? correct : [correct];
-        const normAnswers = answers.map((x) => normalizeSpaces(x));
-
-        if (normAnswers.some((c) => a === c))
-          return { kind: "ok", symbol: "OK" };
-        if (normAnswers.some((c) => a.toLowerCase() === c.toLowerCase()))
-          return { kind: "warn", symbol: "!" };
-
-        return { kind: "bad", symbol: "X" };
+      function getDeckNames(items) {
+        return [...new Set(items.map(deckOf))].sort((a, b) =>
+          a.localeCompare(b, "de"),
+        );
       }
 
-      function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
+      // Precompute decks and deck counts once
+      const ALL_DECKS = getDeckNames(ITEMS);
+      const DECK_COUNT = ITEMS.reduce((acc, it) => {
+        const d = deckOf(it);
+        acc[d] = (acc[d] || 0) + 1;
+        return acc;
+      }, {});
+
+      let selectedDecks = new Set(ALL_DECKS);
+      let activeItems = [];
+      let randomMode = false;
+
+      function shuffledCopy(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = (Math.random() * (i + 1)) | 0;
+          [a[i], a[j]] = [a[j], a[i]];
         }
-        return arr;
+        return a;
       }
 
       function buildActiveItems() {
-        const base = ITEMS.filter((i) => selectedDecks.has(deckOf(i)));
+        const base = ITEMS.filter((it) => selectedDecks.has(deckOf(it)));
+
+        const withCache = base.map((it) => {
+          const answersRaw = Array.isArray(it.correct) ? it.correct : [it.correct];
+          const answers = answersRaw.map((x) => normalizeSpaces(x));
+          const answersLower = answers.map((x) => x.toLowerCase());
+          return { ...it, _answers: answers, _answersLower: answersLower };
+        });
 
         if (randomMode) {
-          activeItems = shuffleArray(base.slice());
+          activeItems = shuffledCopy(withCache);
         } else {
-          activeItems = base.slice().sort((a, b) => {
+          activeItems = withCache.slice().sort((a, b) => {
             const d = deckOf(a).localeCompare(deckOf(b), "de");
             if (d !== 0) return d;
             return String(a.patient || "").localeCompare(
@@ -323,7 +317,7 @@
       function renderDeckSelector() {
         deckListEl.innerHTML = "";
 
-        getDeckNames(ITEMS).forEach((deck) => {
+        ALL_DECKS.forEach((deck) => {
           const label = document.createElement("label");
           label.className = "deck-item";
 
@@ -336,7 +330,7 @@
             render();
           });
 
-          const count = ITEMS.filter((i) => deckOf(i) === deck).length;
+          const count = DECK_COUNT[deck] || 0;
 
           const txt = document.createElement("span");
           txt.textContent = deck + " (" + count + ")";
@@ -347,13 +341,26 @@
         });
       }
 
-      // If multiple correct answers exist, pick the one with the longest common prefix (case-insensitive).
-      // This stabilizes help behavior for answers like "Rigor;Steifigkeit".
-      function pickBestCorrect(correct, currentInput) {
-        const current = normalizeSpaces(currentInput);
-        const answers = Array.isArray(correct) ? correct : [correct];
-        const norm = answers.map((x) => normalizeSpaces(x));
+      // Supports single correct string OR array of acceptable answers
+      function evaluate(input, item) {
+        const a = normalizeSpaces(input);
+        if (!a) return { kind: "empty", symbol: "" };
 
+        if (item._answers && item._answers.some((c) => a === c))
+          return { kind: "ok", symbol: "OK" };
+
+        const al = a.toLowerCase();
+        if (item._answersLower && item._answersLower.some((c) => al === c))
+          return { kind: "warn", symbol: "!" };
+
+        return { kind: "bad", symbol: "X" };
+      }
+
+      // If multiple correct answers exist, pick the one with the longest common prefix (case-insensitive).
+      // Uses cached _answers to avoid re-normalization.
+      function pickBestCorrect(item, currentInput) {
+        const current = normalizeSpaces(currentInput);
+        const norm = Array.isArray(item._answers) ? item._answers : [];
         if (norm.length === 0) return "";
 
         if (!current) return norm[0];
@@ -365,7 +372,6 @@
 
         for (const cand of norm) {
           const cLower = cand.toLowerCase();
-          // common prefix length
           let k = 0;
           while (
             k < curLower.length &&
@@ -384,22 +390,18 @@
       // Hilfe rule (case-aware correction):
       // - if input empty: set to first char of correct (with correct casing)
       // - else find first position where input differs from correct (case-insensitive)
-      //     - if mismatch at pos 0: replace whole input with first correct char
-      //     - else keep correct prefix up to mismatch, then append the correct char at mismatch position
       // - if input matches correct fully (ignoring case): normalize to correct casing (set exact correct)
       function applyHelp(idx) {
-        const inputEl = document.querySelector(`input[data-idx="${idx}"]`);
+        const inputEl = document.getElementById("input-" + idx);
         if (!inputEl || !activeItems[idx]) return;
 
         const item = activeItems[idx];
-        const correct = pickBestCorrect(item.correct, inputEl.value);
-        const corr = String(correct ?? "");
+        const corr = String(pickBestCorrect(item, inputEl.value) ?? "");
         if (!corr) return;
 
         const currentRaw = String(inputEl.value ?? "");
         const current = normalizeKeepTrailingSpace(currentRaw);
 
-        // if empty -> first char
         if (!current) {
           inputEl.value = corr.slice(0, 1);
           updateRow(idx);
@@ -410,8 +412,6 @@
         const curLower = current.toLowerCase();
         const corrLower = corr.toLowerCase();
 
-        // If user already matches full answer (ignoring case), fix casing exactly
-        // BUT only if they didn't end with a trailing space.
         if (!current.endsWith(" ") && curLower === corrLower) {
           inputEl.value = corr;
           updateRow(idx);
@@ -419,7 +419,6 @@
           return;
         }
 
-        // find first mismatch position
         const minLen = Math.min(curLower.length, corrLower.length);
         let mismatch = -1;
 
@@ -430,15 +429,10 @@
           }
         }
 
-        // if no mismatch within minLen:
-        // - either current is a correct prefix (shorter) OR current is longer than correct
         if (mismatch === -1) {
           if (current.length < corr.length) {
-            // correct prefix -> append next correct char
-            inputEl.value =
-              current + corr.slice(current.length, current.length + 1);
+            inputEl.value = current + corr.slice(current.length, current.length + 1);
           } else {
-            // current longer than correct -> reset to first correct char
             inputEl.value = corr.slice(0, 1);
           }
           updateRow(idx);
@@ -446,12 +440,9 @@
           return;
         }
 
-        // mismatch found
         if (mismatch === 0) {
-          // completely wrong -> clear and add first correct char
           inputEl.value = corr.slice(0, 1);
         } else {
-          // keep correct prefix, append correct char at mismatch pos
           const prefix = corr.slice(0, mismatch);
           const nextChar = corr.slice(mismatch, mismatch + 1);
           inputEl.value = prefix + nextChar;
@@ -506,11 +497,7 @@
           input.spellcheck = false;
           input.placeholder = "Fachsprache eingeben...";
           input.dataset.idx = String(idx);
-
-          input.addEventListener("input", () => {
-            updateRow(idx);
-            updateScore();
-          });
+          input.id = "input-" + idx;
 
           tdA.appendChild(input);
 
@@ -522,8 +509,8 @@
           btn.textContent = "Hilfe";
           btn.style.padding = "6px 10px";
           btn.style.fontSize = "12px";
+          btn.dataset.idx = String(idx);
 
-          btn.addEventListener("click", () => applyHelp(idx));
           tdH.appendChild(btn);
 
           const tdS = document.createElement("td");
@@ -541,12 +528,12 @@
       // - OK / ! => show full correct answer
       // - X => show X
       function updateRow(idx) {
-        const input = document.querySelector(`input[data-idx="${idx}"]`);
+        const input = document.getElementById("input-" + idx);
         const statusEl = document.getElementById("status-" + idx);
         if (!input || !statusEl || !activeItems[idx]) return;
 
         const item = activeItems[idx];
-        const res = evaluate(input.value, item.correct);
+        const res = evaluate(input.value, item);
 
         statusEl.className = "status";
         if (res.kind !== "empty") statusEl.classList.add(res.kind);
@@ -571,14 +558,15 @@
           return;
         }
 
-        activeItems.forEach((item, idx) => {
-          const input = document.querySelector(`input[data-idx="${idx}"]`);
-          const res = evaluate(input ? input.value : "", item.correct);
+        for (let idx = 0; idx < activeItems.length; idx++) {
+          const item = activeItems[idx];
+          const input = document.getElementById("input-" + idx);
+          const res = evaluate(input ? input.value : "", item);
           if (res.kind !== "empty") filled++;
           if (res.kind === "ok") ok++;
           if (res.kind === "warn") warn++;
           if (res.kind === "bad") bad++;
-        });
+        }
 
         scoreEl.textContent =
           "Ausgefuellt " +
@@ -593,38 +581,56 @@
           bad;
       }
 
+      // Event delegation: one handler for all inputs and help buttons
+      rowsEl.addEventListener("input", (e) => {
+        const t = e.target;
+        if (!(t instanceof HTMLElement)) return;
+        if (t.tagName !== "INPUT") return;
+        const idx = Number(t.dataset.idx);
+        if (!Number.isFinite(idx)) return;
+        updateRow(idx);
+        updateScore();
+      });
+
+      rowsEl.addEventListener("click", (e) => {
+        const t = e.target;
+        if (!(t instanceof HTMLElement)) return;
+        if (t.tagName !== "BUTTON") return;
+        if (t.textContent !== "Hilfe") return;
+        const idx = Number(t.dataset.idx);
+        if (!Number.isFinite(idx)) return;
+        applyHelp(idx);
+      });
+
       document.getElementById("checkAll").addEventListener("click", () => {
         if (!Array.isArray(activeItems) || activeItems.length === 0) return;
-        activeItems.forEach((item, idx) => {
+        for (let idx = 0; idx < activeItems.length; idx++) {
+          const item = activeItems[idx];
           const statusEl = document.getElementById("status-" + idx);
-          if (!statusEl) return;
+          if (!statusEl) continue;
           statusEl.className = "status warn";
           statusEl.textContent = revealCorrect(item.correct);
-        });
+        }
       });
 
       document.getElementById("reset").addEventListener("click", () => {
-        document
-          .querySelectorAll('input[type="text"]')
-          .forEach((i) => (i.value = ""));
-        if (Array.isArray(activeItems)) {
-          activeItems.forEach((_, idx) => {
-            const statusEl = document.getElementById("status-" + idx);
-            if (!statusEl) return;
+        for (let idx = 0; idx < activeItems.length; idx++) {
+          const input = document.getElementById("input-" + idx);
+          if (input) input.value = "";
+          const statusEl = document.getElementById("status-" + idx);
+          if (statusEl) {
             statusEl.textContent = "";
             statusEl.className = "status";
-          });
+          }
         }
         updateScore();
       });
 
-      document
-        .getElementById("selectAllDecks")
-        .addEventListener("click", () => {
-          selectedDecks = new Set(getDeckNames(ITEMS));
-          renderDeckSelector();
-          render();
-        });
+      document.getElementById("selectAllDecks").addEventListener("click", () => {
+        selectedDecks = new Set(ALL_DECKS);
+        renderDeckSelector();
+        render();
+      });
 
       document.getElementById("clearDecks").addEventListener("click", () => {
         selectedDecks = new Set();
