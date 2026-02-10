@@ -11,6 +11,31 @@
     items.push(`${deck}|${patient}|${correctStr}`);
   }
 
+
+  // =======================
+  // SCHMERZEN – FSP / Arztbrief-relevant
+  // =======================
+
+  add("A - SCHMERZEN", "brustschmerzen", "Thoraxschmerzen");
+  add("A - SCHMERZEN", "bauchschmerzen", "Abdominalschmerzen");
+  add("A - SCHMERZEN", "oberbauchschmerzen", "Oberbauchschmerzen");
+  add("A - SCHMERZEN", "unterbauchschmerzen", "Unterbauchschmerzen");
+  add("A - SCHMERZEN", "flankenschmerzen", "Flankenschmerzen");
+  add("A - SCHMERZEN", "kopfschmerzen", "Cephalgie");
+  add("A - SCHMERZEN", "nackenschmerzen", "Zervikalgie");
+  add("A - SCHMERZEN", "rückenschmerzen", "Dorsalgie");
+  add("A - SCHMERZEN", "kreuzschmerzen", "Lumbalgie");
+  add("A - SCHMERZEN", "gelenkschmerzen", "Arthralgie");
+  add("A - SCHMERZEN", "muskelschmerzen", "Myalgie");
+  add("A - SCHMERZEN", "knieschmerzen", "Gonalgie");
+  add("A - SCHMERZEN", "schulterschmerzen", "Schulterschmerzen");
+  add("A - SCHMERZEN", "hüftschmerzen", "Hüftschmerzen");
+  add("A - SCHMERZEN", "halsschmerzen", "Pharyngodynie");
+  add("A - SCHMERZEN", "ohrenschmerzen", "Otalgie");
+
+
+
+
   // -------------------------------
   // 1) KURZ (Kurzformen, "NEU:")
   // -------------------------------
@@ -19,7 +44,6 @@
   add("Atemwege / Infekt - KURZ", "Husten", "Tussis");
   add("Atemwege / Infekt - KURZ", "Atemnot", "Dyspnoe");
   add("Atemwege / Infekt - KURZ", "Schnupfen", "Rhinorrhoe");
-  add("Atemwege / Infekt - KURZ", "Halsschmerzen", "Pharyngodynie");
   add("Atemwege / Infekt - KURZ", "Heiserkeit", "Dysphonie");
   add("Atemwege / Infekt - KURZ", "Fieber", "Pyrexie");
   add("Atemwege / Infekt - KURZ", "Auswurf", "Sputum");
@@ -28,7 +52,6 @@
   add("Atemwege / Infekt - KURZ", "Atemstillstand", "Apnoe");
 
   // Neurologisch / Psychisch
-  add("Neurologisch / Psychisch - KURZ", "Kopfschmerzen", "Cephalgie");
   add("Neurologisch / Psychisch - KURZ", "Schwindel", "Vertigo");
   add("Neurologisch / Psychisch - KURZ", "Zittern", "Tremor");
   add("Neurologisch / Psychisch - KURZ", "Ohnmacht", "Synkope");
@@ -49,7 +72,6 @@
   add("Gastrointestinal - KURZ", "Durchfall", "Diarrhoe");
   add("Gastrointestinal - KURZ", "Verstopfung", "Obstipation");
   add("Gastrointestinal - KURZ", "Schluckstörung", "Dysphagie");
-  add("Gastrointestinal - KURZ", "Bauchschmerzen", "Abdominalschmerzen");
   add("Gastrointestinal - KURZ", "Sodbrennen", "Pyrosis");
   add("Gastrointestinal - KURZ", "Blut im Stuhl", "Hämatochezie");
   add("Gastrointestinal - KURZ", "schwarzer Stuhl", "Meläna");
@@ -57,7 +79,6 @@
   add("Gastrointestinal - KURZ", "Aufstoßen", "Ruktus");
 
   // Thorax / Kardiopulmonal
-  add("Thorax / Kardiopulmonal - KURZ", "Brustschmerzen", "Thoraxschmerzen");
   add("Thorax / Kardiopulmonal - KURZ", "Herzklopfen", "Palpitationen");
   add("Thorax / Kardiopulmonal - KURZ", "Brustenge", "Angina-pectoris-Beschwerden");
   add("Thorax / Kardiopulmonal - KURZ", "Herzrasen", "Tachykardie");
@@ -66,11 +87,6 @@
   add("Thorax / Kardiopulmonal - KURZ", "Wassereinlagerung in den Beinen", "periphere Ödeme");
 
   // Bewegungsapparat / Gefäße
-  add("Bewegungsapparat / Gefäße - KURZ", "Rückenschmerzen", "Dorsalgie");
-  add("Bewegungsapparat / Gefäße - KURZ", "Kreuzschmerzen", "Lumbalgie");
-  add("Bewegungsapparat / Gefäße - KURZ", "Nackenschmerzen", "Cervikalgie");
-  add("Bewegungsapparat / Gefäße - KURZ", "Gelenkschmerzen", "Arthralgie");
-  add("Bewegungsapparat / Gefäße - KURZ", "Muskelschmerzen", "Myalgie");
   add("Bewegungsapparat / Gefäße - KURZ", "steife Gelenke", "Gelenksteife");
 
   // Allgemein / Vegetativ
@@ -165,7 +181,6 @@
   add("Gastrointestinal - LANG", "Ich kann nicht auf Toilette", "Obstipation");
   add("Gastrointestinal - LANG", "Schwarzer Stuhl", "Meläna");
   add("Gastrointestinal - LANG", "Blut im Stuhl", "Hämatochezie");
-  add("Gastrointestinal - LANG", "Bauchschmerzen", "Abdominalschmerzen");
   add("Gastrointestinal - LANG", "Krampfartige Schmerzen", "kolikartig");
   add("Gastrointestinal - LANG", "Nach dem Essen", "postprandial");
 
@@ -185,7 +200,6 @@
 
   // Thorax / Kardiopulmonal
   add("Thorax / Kardiopulmonal - LANG", "Schmerzen hinter dem Brustbein", "retrosternaler Schmerz");
-  add("Thorax / Kardiopulmonal - LANG", "Brustschmerzen", "thorakale Schmerzen");
   add("Thorax / Kardiopulmonal - LANG", "Hinter dem Brustbein", "retrosternal");
   add("Thorax / Kardiopulmonal - LANG", "Brennt wie Feuer", "brennend");
   add("Thorax / Kardiopulmonal - LANG", "Zieht in den Hals / Arm", "ausstrahlend");
