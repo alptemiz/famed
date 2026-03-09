@@ -126,7 +126,7 @@
   add("Neurologisch / Psychisch - LANG", "Mir dreht sich alles", "Vertigo");
   add("Neurologisch / Psychisch - LANG", "Ich habe das Gefühl, alles schwankt", "Vertigo");
   add("Neurologisch / Psychisch - LANG", "Die Augen wackeln", "Nystagmus");
-  add("Neurologisch / Psychisch - LANG", "Es fühlt sich taub an", "Parästhesie");
+  add("Neurologisch / Psychisch - LANG", "Es fühlt sich taub an", "Hypästhesie");
   add("Neurologisch / Psychisch - LANG", "Ich bin kurz weggetreten", "Synkope");
   add("Neurologisch / Psychisch - LANG", "Ich bewege mich langsamer", "Bradykinese");
   add("Neurologisch / Psychisch - LANG", "Alles geht irgendwie träge", "Bradykinese");
