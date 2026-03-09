@@ -241,8 +241,8 @@
   add("ZEIT - Häufigkeit", "schubweise", "schubweise verlaufend");
   
   // ZEIT – Beginn
-  add("ZEIT - Beginn", "plötzlich", "plötzlich aufgetreten");
-  add("ZEIT - Beginn", "auf einmal", "plötzlich aufgetreten");
+  add("ZEIT - Beginn", "plötzlich", "akut aufgetreten");
+  add("ZEIT - Beginn", "auf einmal", "akut aufgetreten");
   add("ZEIT - Beginn", "ganz plötzlich", "akut aufgetreten");
   add("ZEIT - Beginn", "akut", "akut aufgetreten");
   
